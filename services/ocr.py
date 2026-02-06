@@ -13,7 +13,7 @@ import base64
 from ..config import OCRConfig, Config
 from ..utils.logger import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger()
 
 
 class OCRService:
