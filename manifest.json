@@ -1,0 +1,13 @@
+{
+    "name": "Hands-Free Anki",
+    "package": "hands-free-anki",
+    "mod": 1738886400,
+    "min_point_version": 54,
+    "max_point_version": 231,
+    "branch_index": 0,
+    "conflicts": [],
+    "homepage": "https://github.com/fsch-ppi/hands-free-anki",
+    "author": "Florian Schlösser",
+    "description": "Review Anki cards hands-free using voice. Cards are read aloud, you answer verbally, and answers are automatically scored.",
+    "tags": ["voice", "hands-free", "accessibility", "tts", "speech-recognition", "ai-scoring"]
+}

@@ -1,0 +1,39 @@
+# Bundled dependencies (large, should be distributed separately)
+vendor/
+
+# Python version file
+.python-version
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# User configuration (contains API keys!)
+user_config.json
+
+# Cache and logs
+cache/
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Temporary files
+*.tmp
+*.temp

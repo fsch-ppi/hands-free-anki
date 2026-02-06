@@ -1,0 +1,34 @@
+[project]
+name = "hands-free-anki"
+version = "0.1.0"
+description = "Hands-free Anki review using voice commands and TTS"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # TTS
+    "pyttsx3>=2.90",           # Offline TTS
+    "gtts>=2.5.1",             # Google TTS (free, online)
+    "pygame>=2.5.0",           # Audio playback for gTTS
+    
+    # Speech Recognition
+    "SpeechRecognition>=3.10.0",
+    "pyaudio>=0.2.14",         # Audio recording
+    
+    # OCR
+    "pytesseract>=0.3.10",     # Tesseract wrapper
+    "Pillow>=10.0.0",          # Image processing
+    
+    # LLM clients (optional - for smart scoring)
+    "openai>=1.0.0",           # OpenAI API
+    "anthropic>=0.18.0",       # Anthropic API
+    "httpx>=0.27.0",           # HTTP client for Ollama
+]
+
+[project.optional-dependencies]
+easyocr = ["easyocr>=1.7.0"]   # Alternative OCR (better for mobile)
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+]

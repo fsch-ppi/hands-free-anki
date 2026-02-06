@@ -1,0 +1,97 @@
+{
+  "enabled": false,
+  "display": {
+    "show_debug_console": false,
+    "show_user_answer": true,
+    "show_rating_indicator": true,
+    "show_recording_indicator": true,
+    "show_audio_level_monitor": false
+  },
+  "tts": {
+    "providers": [
+      "elevenlabs",
+      "gtts",
+      "offline"
+    ],
+    "language": "en",
+    "rate": 200,
+    "front_rate": 150,
+    "back_rate": 175,
+    "read_card_ease": false,
+    "elevenlabs_api_key": "",
+    "elevenlabs_voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "elevenlabs_model_id": "eleven_multilingual_v2",
+    "google_tts_api_key": "",
+    "google_tts_voice": "",
+    "amazon_polly_access_key": "",
+    "amazon_polly_secret_key": "",
+    "amazon_polly_region": "us-east-1",
+    "amazon_polly_voice_id": "Joanna"
+  },
+  "stt": {
+    "provider": "whisper",
+    "language": "en-US",
+    "silence_timeout": 1.5,
+    "min_recording_time": 0.5,
+    "max_recording_time": 30.0,
+    "microphone_index": null,
+    "energy_threshold": 1000,
+    "dynamic_threshold": true,
+    "whisper_model": "whisper-large-v3",
+    "elevenlabs_api_key": "",
+    "elevenlabs_model_id": "scribe_v1",
+    "enable_google_fallback": true,
+    "enable_sphinx_fallback": true
+  },
+  "ocr": {
+    "enabled": true,
+    "engine": "gpt4_vision",
+    "languages": ["eng"],
+    "skipped_by_user": false
+  },
+  "scoring": {
+    "method": "llm",
+    "threshold_4": 0.85,
+    "threshold_3": 0.60,
+    "threshold_2": 0.35,
+    "embedding_weight": 0.5
+  },
+  "announcement": {
+    "enabled": true,
+    "phrases_again_en": "",
+    "phrases_hard_en": "",
+    "phrases_good_en": "",
+    "phrases_easy_en": "",
+    "phrases_again_de": "",
+    "phrases_hard_de": "",
+    "phrases_good_de": "",
+    "phrases_easy_de": ""
+  },
+  "llm": {
+    "provider": "openai",
+    "openai_api_key": "",
+    "anthropic_api_key": "",
+    "mistral_api_key": "",
+    "openai_model": "gpt-4o-mini",
+    "anthropic_model": "claude-3-haiku-20240307",
+    "ollama_model": "llama3.2",
+    "ollama_base_url": "http://localhost:11434",
+    "mistral_model": "mistral-small-latest",
+    "scoring_prompt": "You are evaluating a flashcard answer.\nQuestion/Front: {front}\nExpected Answer/Back: {back}\nUser's Answer: {user_answer}\n\nRate the user's answer from 0.0 to 1.0 where:\n- 1.0 = Perfect or essentially correct\n- 0.7-0.9 = Good answer with minor issues\n- 0.5-0.7 = Partial understanding\n- 0.3-0.5 = Poor answer with major gaps\n- 0.0-0.3 = Wrong or no meaningful answer\n\nRespond with ONLY a number between 0.0 and 1.0."
+  },
+  "embedding": {
+    "provider": "local",
+    "local_model": "all-MiniLM-L6-v2",
+    "openai_model": "text-embedding-3-small"
+  },
+  "voice_commands": {
+    "stop_words": "stop,halt,stopp,beenden",
+    "skip_words": "skip,überspringen",
+    "next_words": "next,weiter,nächste",
+    "disable_words": "disable,deaktivieren"
+  },
+  "deck_settings": {
+    "deck_settings": "{}",
+    "default_skip_fields": "ID,Audio,Sound,Comments,Tags,Source,Reference,Notes,Extra"
+  }
+}
