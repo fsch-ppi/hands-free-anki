@@ -36,6 +36,13 @@ SPACY_MODELS = {
     "de": "de_core_news_sm",
 }
 
+# All packages needed for full functionality
+ALL_PACKAGES = [
+    "pyttsx3", "gtts", "pygame", "SpeechRecognition", "pyaudio",
+    "pytesseract", "Pillow", "spacy", "openai", "anthropic", "httpx",
+    "numpy",  # Required by spacy
+]
+
 
 def has_bundled_deps() -> bool:
     """Check if dependencies are bundled in vendor folder."""
@@ -80,9 +87,13 @@ def get_install_command(packages: List[str]) -> str:
     return f"{sys.executable} -m pip install {' '.join(packages)}"
 
 
-def install_packages(packages: List[str]) -> Tuple[bool, str]:
+def install_packages(packages: List[str], to_vendor: bool = True) -> Tuple[bool, str]:
     """
     Attempt to install packages using pip.
+
+    Args:
+        packages: List of package names to install
+        to_vendor: If True, install to vendor/ folder (recommended)
 
     Returns:
         Tuple of (success, message)
@@ -91,12 +102,22 @@ def install_packages(packages: List[str]) -> Tuple[bool, str]:
         return True, "No packages to install"
 
     try:
-        cmd = [sys.executable, "-m", "pip", "install"] + packages
+        from pathlib import Path
+        addon_dir = Path(__file__).parent
+        vendor_dir = addon_dir / "vendor"
+        vendor_dir.mkdir(exist_ok=True)
+
+        if to_vendor:
+            cmd = [sys.executable, "-m", "pip", "install",
+                   "-t", str(vendor_dir)] + packages
+        else:
+            cmd = [sys.executable, "-m", "pip", "install"] + packages
+
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            timeout=300  # 5 minute timeout
+            timeout=600  # 10 minute timeout for large packages
         )
 
         if result.returncode == 0:
@@ -198,3 +219,43 @@ def get_spacy_models_status() -> dict:
     for lang, model in SPACY_MODELS.items():
         status[lang] = check_spacy_model(lang)
     return status
+
+
+def install_all_dependencies() -> Tuple[bool, str]:
+    """
+    Install all required and optional dependencies to the vendor folder.
+    This is for users who download the lite version without bundled deps.
+
+    Returns:
+        Tuple of (success, message)
+    """
+    from pathlib import Path
+
+    # Install all packages to vendor
+    success, msg = install_packages(ALL_PACKAGES, to_vendor=True)
+    if not success:
+        return False, f"Failed to install packages: {msg}"
+
+    # Try to install spaCy models
+    messages = [msg]
+    for lang in ["en", "de"]:
+        model_success, model_msg = install_spacy_model(lang)
+        messages.append(model_msg)
+
+    return True, "\n".join(messages)
+
+
+def check_and_prompt_install() -> bool:
+    """
+    Check if dependencies are missing and prompt user to install.
+    Returns True if deps are available (either bundled or after install).
+    """
+    if has_bundled_deps():
+        return True
+
+    missing_required, _ = check_dependencies()
+    if not missing_required:
+        return True
+
+    # Dependencies are missing - user needs to install
+    return False

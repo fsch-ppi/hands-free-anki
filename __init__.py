@@ -170,23 +170,41 @@ def on_note_modified(col, note, deck_id):
 
 
 def install_dependencies():
-    """Install missing dependencies."""
-    missing_required, missing_optional = check_dependencies()
+    """Install all dependencies to the vendor folder."""
+    from .deps import install_all_dependencies, has_bundled_deps
 
-    if not missing_required:
-        showInfo("All required dependencies are already installed!")
+    if has_bundled_deps():
+        showInfo("All dependencies are already installed!")
         return
 
-    showInfo(
-        f"Installing {len(missing_required)} packages. This may take a few minutes...")
+    # Show warning about installation time
+    from aqt.qt import QMessageBox
+    reply = QMessageBox.question(
+        mw,
+        "Install Dependencies",
+        "This will download and install all required packages (~150MB).\n\n"
+        "This may take 5-10 minutes depending on your internet connection.\n\n"
+        "Continue?",
+        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        QMessageBox.StandardButton.Yes
+    )
 
-    success, message = install_packages(missing_required)
+    if reply != QMessageBox.StandardButton.Yes:
+        return
+
+    showInfo("Installing dependencies... This may take several minutes.\n\n"
+             "Anki may appear frozen - please wait.")
+
+    # Run installation
+    success, message = install_all_dependencies()
 
     if success:
-        showInfo("Dependencies installed successfully! Please restart Anki.")
+        showInfo("Dependencies installed successfully!\n\n"
+                 "Please restart Anki for changes to take effect.")
     else:
         showWarning(
-            f"Failed to install dependencies:\n\n{message}\n\nPlease install manually.")
+            f"Failed to install dependencies:\n\n{message}\n\n"
+            "Please try installing manually - see README for instructions.")
 
 
 def setup_hooks():
